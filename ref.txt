@@ -1,0 +1,127 @@
+###
+tech > topic > do something for example
+do entries like this
+	and this
+###
+gsheet > query > query using header names
+=QUERY({A:C}, "SELECT Col"& MATCH("Foo", A1:C1, 0), 1)
+###
+bigquery > schema > make JSON schema for table
+python3 -c "from bqtools import schema; schema('feature_1,feature_2', 'f1_dtype,f2_dtype')"
+###
+regex > names > match most English names like First M MacLast
+[A-Z][a-z]{1,10}(?:-[A-Z])?[a-z]{1,10}(?:\s[A-Z](?:\.)?)?\s[A-Z](?:[a-z]{1,2}[A-Z])?(?:[a-z]-[A-Z])?[a-z-]{0,10}(?:-[A-Z])?[a-z-]{1,10}
+###
+regex > phone numbers > match US phone numbers
+(?:\()?\d{3}\D{0,2}\d{3}\D{0,2}\d{4}
+###
+regex > phone numbers > match most phone extensions
+[xX](?:t|T|tension)?\.?:?\s?(\d{3,6})
+###
+regex > emails > match email addresses
+[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]+
+###
+characters > info > get info circle character
+ⓘ
+###
+bash > python > run python from terminal
+python3 -c 'from <module> import <function>; print(<function>())'
+###
+bash > windows > get path to user from wsl
+/mnt/c/Users/joberlin/
+###
+tsql > dates > format datetime
+FORMAT(<date>, 'yyyy-MM')
+###
+bash > sort > sort special characters, eg in markdown.md file
+LC_COLLATE=C sort <file>
+###
+bash > printf > print formatted string
+printf '%s\n' '<text>' '<text>'
+###
+bash > ref.txt > add entry
+printf '%s\n' '<tech> > <module> > <do something>' '<do like this>' '###' >> ref.txt
+###
+bash > find > list all directories and files
+find -L
+###
+chrome > screen > go full screen
+F11
+###
+tsql > schema > return tables and columns with table or column names like
+SELECT table_name, column_name FROM information_schema.columns
+--WHERE table_name LIKE '%<text>%' ORDER BY table_name
+--WHERE column_name LIKE '%<text>%' ORDER BY column_name
+###
+git > initialize > initialize git directory
+git init
+###
+git > status > get status of directory
+git status
+###
+git > add > add/stage change(s) in directory
+git add . OR <file 1> <file 2>
+###
+git > commit > commit changes in directory
+git commit -m '<message text>'
+###
+git > remote > connect git directory with github repo first time
+git remote add origin <github repo url>
+###
+git > push > push commit to remote server, ie github
+git push -u origin master
+###
+git > pull > pull project from remote (see branch, fetch, and diff first)
+git pull origin master
+###
+git > log > list committed snapshots with diffs
+git log --stat - p
+###
+git > branch > get all branches in repo
+git branch -r
+###
+git > fetch > get commits and files from remote without merging with local project
+git fetch
+###
+vim > search > search for or replace html tag of two characters (eg <li> and </li>) with this regex
+:/\{2\}> AND :/<\/.\{2\}>
+###
+vim > delete > delete all lines after cursor
+[normal mode] dG
+###
+windows10 > windows > minimize all windows
+windows key m
+###
+vim > screen > temporarily view a particular line
+:<line #>z
+###
+bash > sed > return a line range from file
+sed -n <line #>,<line #>p <file>
+###
+bash > sed > replace text on particular lines in file in place (-i)
+sed -i '<line #>,<line #>s/<search>/<replace>/' <file>
+###
+python > help > get help text of a function (text literal after function declaration)
+help(<function>)
+###
+vim > ruler > display ruler, ie current line and column in line
+:set ruler
+###
+bash > zip > zip multiple directories
+zip -r <file.zip> <dir 1> <dir 2>
+###
+vim > yank > copy and paste word
+yw and p
+###
+bash > remove > remove with force (eg delete directory with git init and avoid prompts)
+rm <dir> -rf
+###
+bash > find > list all directories and files
+find -L
+###
+python > pandas > return frequency counts with value_counts()
+df.series.value_counts()
+###
+python > pandas > get descriptive statistics
+df.describe()
+###

@@ -16,3 +16,20 @@ Currently includes a drop function that archives dropped series into a JSON file
 - Tidy up explorefeatures.py and merge into dtools.py.
 
 
+## ref.txt
+# Reference
+All sorts of snippets.
+
+## Format
+```
+tech > topic > do something
+snippet to do something
+###
+tech > another topic > do something else
+snippet to do:
+    something else
+###
+```
+## To Do
+- Add keys to ref.txt
+To do: Remove or rework explorefeatures.py as Pandas has describe

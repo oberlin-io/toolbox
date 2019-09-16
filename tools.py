@@ -67,3 +67,27 @@ if test:
     df = pd.read_csv('test_sets/iris.csv')
     add_row(df)
 
+# bqtools > make json schema for google Big Query
+python3 -c "from bqtools import schema; schema('feature_1,feature_2', 'f1_dtype,f2_dtype')"
+import json
+
+class schema(object):
+    def __init__(self, features, dtypes):
+        '''
+        features:   one-line csv string
+        dtypes:     one-line csv string
+        '''
+        features = features.split(',')
+        dtypes = dtypes.split(',')
+        if len(features) == len(dtypes):
+            schema = []
+            for i in range(len(features)):
+                featobj = {}
+                featobj['name'] = features[i]
+                featobj['type'] = dtypes[i]
+                schema.append(featobj)
+            print(schema)
+            with open('schema.json', 'w') as f:
+                json.dump(schema, f, indent=2)
+        else:
+            print('ERROR: features and dtypes lengths are unequal')
