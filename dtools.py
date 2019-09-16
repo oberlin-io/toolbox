@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 
+
+
+
 def mkdropped():
     '''
     write initial dropped.json as a dropped data archive
@@ -41,4 +44,26 @@ def testout(df, kind, max_rows):
     else:
         print("argument 'kind' must be 'web' or 'csv'\n")
 
+
+def add_row(df):
+    '''
+    Append row to a Pandas dataframe, with same columns,
+    ignoring new row index. Returns new dataframe.
+    
+    df: dataframe with column names
+    '''
+    
+    new_entry = {}
+    for c in df.columns:
+        new_entry[c] = [input('{} ({}): '.format(c, df[c].dtype))]
+
+    df_entry = pd.DataFrame(new_entry)
+
+    return(df.append(df_entry, ignore_index=True))
+
+
+test=False
+if test:
+    df = pd.read_csv('test_sets/iris.csv')
+    add_row(df)
 
