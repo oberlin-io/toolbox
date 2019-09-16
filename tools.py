@@ -1,30 +1,50 @@
 import pandas as pd
 import numpy as np
+import json
 
+class conf(object):
+    def __init__(self):
+        self.conf = yaml.safe_load('conf.yaml')
 
-
-
-def mkdropped():
+class dropped(object):
+    ''' Creates an array of dictionaries, written as JSON to directory, of dropped
+            data. Each dict an instance of a dropped dataframe.
+        catch(): Appends a dropped dataframe to the object. May do this at various
+            points throughout processing.
+        write(): Writes dropped data out to JSON file. Probably use this once,
+            at the end of processing.
     '''
-    write initial dropped.json as a dropped data archive
-    overwrites any existing dropped.json, so use only initially
-    '''
-    with open('dropped.json', 'w') as f:
-        #yeswrite = input('overwrite existing dropped.json? y/n')
-        #if yeswrite = 'y':
-        f.write('{\n')
 
-def capdropped():
-    '''
-    cap off dropped.json to make json valid
-    use after data cleaning and transformation
-    '''
-    with open('dropped.json', 'r') as f:
-        dropped = f.read()
-        capdropped = dropped[:-2] + '\n}\n'
-    with open('dropped.json', 'w') as f:
-        f.write(capdropped)
-        print('dropped.json finalized\n')
+
+    def __init__(self, fresh=True):
+        ''' Initiate the dropped obj
+            fresh: wipes existing dropped.json in dir, default True '''
+
+        if fresh == True:
+            self.dropped = []
+            with open('dropped.json', 'w') as f:
+                f.write('')
+        elif fresh == False:
+            with open('dropped.json', 'r') as f:
+                self.dropped = json.load(f) or {}
+        else: print('Error: variable fresh must be True|False')
+
+
+    def catch(self, df_dropped):
+        ''' Appends dropped dataframe
+            df_dropped: dataframe that was dropped
+            To do: Ideally this would happen with df.drop() being called '''
+
+        j = df_dropped.to_json(index=True)
+        self.dropped.append(j)
+
+
+    def write(self):
+        ''' Write out dropped object. '''
+
+        with open('dropped.json', 'w') as f:
+            json.dump(self.dropped, f, indent=4)
+
 
 
 def testout(df, kind, max_rows):
@@ -62,11 +82,7 @@ def add_row(df):
     return(df.append(df_entry, ignore_index=True))
 
 
-test=False
-if test:
-    df = pd.read_csv('test_sets/iris.csv')
-    add_row(df)
-
+"""
 # bqtools > make json schema for google Big Query
 python3 -c "from bqtools import schema; schema('feature_1,feature_2', 'f1_dtype,f2_dtype')"
 import json
@@ -91,3 +107,14 @@ class schema(object):
                 json.dump(schema, f, indent=2)
         else:
             print('ERROR: features and dtypes lengths are unequal')
+"""
+
+# Testing
+testing=False
+if testing:
+    df = pd.read_csv('test_sets/iris.csv')
+
+
+
+
+
