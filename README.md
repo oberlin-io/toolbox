@@ -13,8 +13,7 @@ Currently includes a drop function that archives dropped series into a JSON file
 - iris.csv
 
 ## To Do
-- Tidy up explorefeatures.py and merge into dtools.py.
-
+- Clean up Big Query function, to take a dataframe probably better than text string
 
 ## ref.txt
 # Reference
