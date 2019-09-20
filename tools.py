@@ -9,6 +9,7 @@ class conf(object):
 class dropped(object):
     ''' Creates an array of dictionaries, written as JSON to directory, of dropped
             data. Each dict an instance of a dropped dataframe.
+        __init__(): wipes existing dropped.json in dir by default
         catch(): Appends a dropped dataframe to the object. May do this at various
             points throughout processing.
         write(): Writes dropped data out to JSON file. Probably use this once,
@@ -32,8 +33,7 @@ class dropped(object):
 
     def catch(self, df_dropped):
         ''' Appends dropped dataframe
-            df_dropped: dataframe that was dropped
-            To do: Ideally this would happen with df.drop() being called '''
+            df_dropped: dataframe that was dropped '''
 
         j = df_dropped.to_json(index=True)
         self.dropped.append(j)
@@ -82,39 +82,36 @@ def add_row(df):
     return(df.append(df_entry, ignore_index=True))
 
 
-"""
-# bqtools > make json schema for google Big Query
-python3 -c "from bqtools import schema; schema('feature_1,feature_2', 'f1_dtype,f2_dtype')"
-import json
 
 class schema(object):
-    def __init__(self, features, dtypes):
+    ''' bqtools > make json schema for google Big Query '''
+    def __init__(self, features, dtypes,):
         '''
         features:   one-line csv string
         dtypes:     one-line csv string
         '''
-        features = features.split(',')
-        dtypes = dtypes.split(',')
-        if len(features) == len(dtypes):
-            schema = []
-            for i in range(len(features)):
-                featobj = {}
-                featobj['name'] = features[i]
-                featobj['type'] = dtypes[i]
-                schema.append(featobj)
-            print(schema)
-            with open('schema.json', 'w') as f:
-                json.dump(schema, f, indent=2)
+        '''
+        if df:
+            for c in df.columns:
+                features +=
+        '''
         else:
+            features = features.split(',')
+            dtypes = dtypes.split(',')
+            if len(features) == len(dtypes):
+                schema = []
+                for i in range(len(features)):
+                    featobj = {}
+                    featobj['name'] = features[i]
+                    featobj['type'] = dtypes[i]
+                    schema.append(featobj)
+                print(schema)
+                with open('schema.json', 'w') as f:
+                    json.dump(schema, f, indent=2)
+            else:
             print('ERROR: features and dtypes lengths are unequal')
-"""
 
-# Testing
+
 testing=False
-if testing:
-    df = pd.read_csv('test_sets/iris.csv')
-
-
-
-
-
+if testing = True:
+    pass
