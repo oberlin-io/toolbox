@@ -125,3 +125,15 @@ df.series.value_counts()
 python > pandas > get descriptive statistics
 df.describe()
 ###
+python > pandas > value_counts to return frequency count
+df.series.value_counts()
+###
+python > pandas > drop rows or columns, specify index names or column names
+df.drop(index=[] | columns=[])
+###
+python > pandas > describe the data, get stats
+df.describe()
+###
+python > pandas > describe the data, get stats
+df.describe()
+###

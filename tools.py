@@ -1,10 +1,36 @@
 import pandas as pd
 import numpy as np
 import json
+import yaml
 
 class conf(object):
     def __init__(self):
-        self.conf = yaml.safe_load('conf.yaml')
+        with open('toolbox/conf.yaml', 'r') as f: c = f.read()
+        self.params = yaml.safe_load(c)
+
+class ref(object):
+    ''' Get items from ref.txt while coding in Python in terminal '''
+    def __init__(self):
+        self.entries = []
+        with open('{}ref.txt'.format(conf().params['path_to_toolbox']), 'r') as f: txt = f.read()
+        for entry in txt.split('###'):
+            self.entries.append(entry)
+    def find(self, string):
+        results = ''
+        for entry in self.entries:
+            if string in entry:
+                results += entry
+        print(results)
+
+    def add(self, ref_, code):
+        with open('{}ref.txt'.format(conf().params['path_to_toolbox']), 'a') as f:
+            f.write('{}\n{}\n###\n'.format(ref_, code))
+        # Update ref object with new entry
+        self.entries = []
+        with open('{}ref.txt'.format(conf().params['path_to_toolbox']), 'r') as f: txt = f.read()
+        for entry in txt.split('###'):
+            self.entries.append(entry)
+
 
 class dropped(object):
     ''' Creates an array of dictionaries, written as JSON to directory, of dropped
@@ -95,23 +121,25 @@ class schema(object):
             for c in df.columns:
                 features +=
         '''
+        #else:
+        features = features.split(',')
+        dtypes = dtypes.split(',')
+        if len(features) == len(dtypes):
+            schema = []
+            for i in range(len(features)):
+                featobj = {}
+                featobj['name'] = features[i]
+                featobj['type'] = dtypes[i]
+                schema.append(featobj)
+            print(schema)
+            with open('schema.json', 'w') as f:
+                json.dump(schema, f, indent=2)
         else:
-            features = features.split(',')
-            dtypes = dtypes.split(',')
-            if len(features) == len(dtypes):
-                schema = []
-                for i in range(len(features)):
-                    featobj = {}
-                    featobj['name'] = features[i]
-                    featobj['type'] = dtypes[i]
-                    schema.append(featobj)
-                print(schema)
-                with open('schema.json', 'w') as f:
-                    json.dump(schema, f, indent=2)
-            else:
             print('ERROR: features and dtypes lengths are unequal')
 
 
 testing=False
-if testing = True:
-    pass
+if testing == True:
+    ref = ref()
+    print(ref.find('git'))
+
