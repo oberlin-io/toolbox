@@ -137,3 +137,6 @@ df.describe()
 python > pandas > describe the data, get stats
 df.describe()
 ###
+python > pandas > regex string match, get rows where column like
+df[df.series.str.match('match this')]
+###
