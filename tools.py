@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 import yaml
+from shutil import copy
 
 class conf(object):
     def __init__(self):

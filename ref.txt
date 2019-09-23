@@ -140,3 +140,12 @@ df.describe()
 python > pandas > regex string match, get rows where column like
 df[df.series.str.match('match this')]
 ###
+python > pandas > sort values
+df.sort_values(by=['colA', 'colB'], ascending=True, na_position='first')
+###
+python > pandas > drop rows with na nan nat per column
+df.dropna(subset=['colA', 'colB'])
+###
+python > pandas > filter by partial string match
+df[df.series.str.contains('string')]
+###
