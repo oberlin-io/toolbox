@@ -152,3 +152,9 @@ df[df.series.str.contains('string')]
 python > pandas > get random sample of set
 df.sample(frac=0.1)
 ###
+bash > ping > ping an IP N number of times
+ping -c4 example.com
+###
+python > fuzzywuzzy > get fuzzy match ratio of two strings, regardless of word order. consider also partial_ratio()
+from fuzzywuzzy import fuzz; fuzz.token_sort_ratio(str1,str2)
+###

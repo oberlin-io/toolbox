@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import json
 import yaml
-from shutil import copy
 
 class conf(object):
     def __init__(self):
@@ -21,7 +20,8 @@ class html(object):
         from bs4 import BeautifulSoup as bs
 
         if title == None:
-            title = ''
+            title_meta = ''
+            title_h1 = ''
         else:
             title_meta = '<title>{}</title>'.format(title)
             title_h1 = '<h1>{}</h1>'.format(title)
@@ -30,9 +30,9 @@ class html(object):
             refresh = ''
         else: refresh = "<meta http-equiv='refresh' content='{}'>".format(int(refresh))
 
-        style = "<style>body {background-color: #001a33; color: #cccc00; \
-                font-family: monospace;} table {border-collapse: collapse; border: 1px solid #006666;} \
-                th {text-align: left;}</style>"
+        style = "<style>body {background-color: white; color: black; \
+                font-family: monospace;} .dataframe {border-collapse: collapse; border: 1px solid black; \
+                /*width: 90%;*/} .dataframe.th {text-align: left;}</style>"
 
         html = "<!DOCTYPE html><html><head><meta charset='UTF-8'>{}{}{} \
                 </head><body>{}{}</body></html>\n" \
