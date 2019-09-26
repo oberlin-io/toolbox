@@ -149,3 +149,6 @@ df.dropna(subset=['colA', 'colB'])
 python > pandas > filter by partial string match
 df[df.series.str.contains('string')]
 ###
+python > pandas > get random sample of set
+df.sample(frac=0.1)
+###

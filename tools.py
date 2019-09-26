@@ -9,6 +9,41 @@ class conf(object):
         with open('toolbox/conf.yaml', 'r') as f: c = f.read()
         self.params = yaml.safe_load(c)
 
+class html(object):
+    """ Run any content through to write out an HTML page  """
+    def __init__(self, content, title=None, refresh=None, file_path='/mnt/c/Users/joberlin/Documents/html.html'):
+        """
+        content: whatever string or df.to_html()
+        title: string or default None
+        refresh: an integer to auto refresh by, default None
+        file_path: file name and optionally with path
+        """
+        from bs4 import BeautifulSoup as bs
+
+        if title == None:
+            title = ''
+        else:
+            title_meta = '<title>{}</title>'.format(title)
+            title_h1 = '<h1>{}</h1>'.format(title)
+
+        if refresh == None:
+            refresh = ''
+        else: refresh = "<meta http-equiv='refresh' content='{}'>".format(int(refresh))
+
+        style = "<style>body {background-color: #001a33; color: #cccc00; \
+                font-family: monospace;} table {border-collapse: collapse; border: 1px solid #006666;} \
+                th {text-align: left;}</style>"
+
+        html = "<!DOCTYPE html><html><head><meta charset='UTF-8'>{}{}{} \
+                </head><body>{}{}</body></html>\n" \
+                .format(refresh, title_meta, style, title_h1, content)
+        
+        html = bs(html, 'lxml').prettify()
+
+        with open(file_path, 'w') as f:
+            f.write(html)
+
+
 class ref(object):
     ''' Get items from ref.txt while coding in Python in terminal '''
     def __init__(self):
