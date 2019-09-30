@@ -158,3 +158,6 @@ ping -c4 example.com
 python > fuzzywuzzy > get fuzzy match ratio of two strings, regardless of word order. consider also partial_ratio()
 from fuzzywuzzy import fuzz; fuzz.token_sort_ratio(str1,str2)
 ###
+python > pandas > join sets on unique identifier with renaming columns with suffix (set both df's index to the identifier)
+df.join(other_df, how='left|right|outer|inner', lsuffix='_df', rsuffix='_other_df')
+###
