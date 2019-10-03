@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import json
 import yaml
+from random import randint
+from time import sleep
 
 class conf(object):
     def __init__(self):
@@ -173,9 +175,28 @@ class schema(object):
         else:
             print('ERROR: features and dtypes lengths are unequal')
 
+class thumb(object):
+    '''Thumb through random observations of a Pandas dataframe'''
+    def __init__(self,df,qty=5):
+        '''Appends an initial quantity of randome observations.'''
+        self.observations=[]
+        index_list=df.index
+        x_list_len=len(index_list)
+        for i in range(qty):
+            list_index=randint(0,x_list_len)
+            self.observations.append(df.iloc[index_list[list_index]])
+
+    def through(self):
+        '''Thumbs through '''
+        for o in self.observations:
+            print(o)
+            print('===============================================\n')
+            sleep(4)
+
 
 testing=False
 if testing == True:
-    ref = ref()
-    print(ref.find('git'))
+    df=pd.read_csv('test_sets/asa_shooter.csv')
+    thumb=thumb(df)
+    thumb.through()
 
