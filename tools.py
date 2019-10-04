@@ -184,6 +184,7 @@ class thumb(object):
         x_list_len=len(index_list)
         for i in range(qty):
             list_index=randint(0,x_list_len)
+            # bug: if df index has been set, then out-of-bounds error
             self.observations.append(df.iloc[index_list[list_index]])
 
     def through(self):
