@@ -1,0 +1,101 @@
+---
+
+# See
+# https://blogs.technet.microsoft.com/machinelearning/2015/05/20/choosing-a-learning-algorithm-in-azure-ml/
+# 
+# Terms
+# predictor: independent variable
+# target: dependent variable
+# X: predictor dataframe
+# Y: target variable dataframe
+# class: a label of the labels of the categorical variable
+
+- algorithm: template
+  type: ~
+  data_like: ~
+  objective: ~
+  concept: ~
+  usage_note: ~
+  code: |
+    ~
+
+- algorithm: lasso
+  type: regression
+  data_like:
+  objective:
+  concept:
+  usage_note: Try using it before ridge regression
+  code: |
+    ~
+
+- algorithm: two-class logistic regression
+  task_type: supervised
+  model_type: regression
+  data_description:
+    sample_size: >50
+    target_variable_type: binary category
+  objective:
+    explainable_boundaries: no
+    task: classify
+  concept: >
+    Class is either 1 or 0. Cost (or loss?) function [?] bi-factor exponential [?].
+    Metrics include accuracy, precision, recall (sensitivity), and F1 score. Accuracy is the
+    percentage of outcomes that were predicted with correct class. Percision is the percentage
+    of outcomes the classifier got correct out of the total number of prediction outcomes.
+    WHat is the difference between percision and accuracy?
+    Recall is the percentage of outcomes it predicted for a given class out of the total outcomes
+    it should have predicted for that class. F1 is the harmonic mean of precision and recall.
+    The receiver operating curve (ROC) is a graph used on classifiers that summarizes the performance
+    of a classifier over all possible thresholds. It plots the true positive rate (y-axis) against
+    the false positive rate as you vary the threshold for assigning observations to a class. In other words,
+   it describes how much the model is capable of distinguishing between classes. Can fine-tune model with C-value.
+  usage_note: ~
+  prep: |
+    # encode target if not already 1|0
+    def encode_target(x):
+        if x == 'label or value threshold': return(1)
+        else: return(0)
+    df['target']=df.target.apply(encode_target)
+    # check means across all variables
+    df.groupby('target').mean()
+    # encode non-numerical predictor variables as 1|0
+    predictor_1 = pd.get_dummies(df.predictor_1)
+    predictor_2 = pd.get_dummies(df.predictor_2) # can encode multiple predictors
+    predictor_1.columns = ['label_1a', 'label_1b']
+    predictor_2.columns = ['label_2a', 'label_2b']
+    # drop non-numerical columns that were encoded and original target variable
+    X = df.drop(columns = ['predictor_1', 'predictor_2'])
+    # concatenate encoded data and other numerical predictors
+    X = pd.concat([X, predictor_1, predictor_2], axis = 1)
+    # transform target to contiguous flattened (1-D) array
+    Y = df.target
+    Y = np.ravel(Y)
+  model: |
+    from sklearn.linear_model import LogisticRegression
+    from sklearn import metrics
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import classification_report
+    from sklearn.metrics import confusion_matrix
+    # fit model
+    log_model = LogisticRegression()
+    log_model.fit(X,Y)
+    log_model.score(X,Y) # ?
+    # get coefficients
+    coeff_df = DataFrame(zip(X.columns, np.transpose(log_model.coef_)))
+    # split data into training and teting sets
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+    log_model_training = LogisticRegression()
+    log_model_training.fit(X_train,Y_train)
+    # predict class
+    class_predict = log_model_training.predict(X_test)
+    # check prediction accuracy
+    metrics.accuracy_score(Y_test, class_predict)
+    classification_report(Y_test, class_predict)
+    confusion_matrix(Y_test, class_predict) # y-axis is actual, x-axis is predicted, top left is origin
+    
+
+other:
+  impute_values: |
+        
+    
+
