@@ -28,6 +28,27 @@
   code: |
     ~
 
+- algorithm: linear regression
+  task_type: supervised
+  see: least squares linear regression
+  sample: >
+    Assumes sample has variables with Linear relationship, Multivariate
+    normality, No or little multicollinearity, No auto-correlation,
+    Homoscedasticity
+    The coefficient of kurtosis (γ2) is the average of the fourth power of the standardized deviations from the mean. For a normal population, the coefficient of kurtosis is expected to equal 3. A value greater than 3 indicates a leptokurtic distribution; a values less than 3 indicates a platykurtic distribution.
+  measures: >
+    The correlation coefficient (ρ) is a measure that determines the degree to
+    which two variables' movements are associated.
+    Akaike information criterion (AIC) is an estimator of the relative quality of statistical models for a given set of data. the lower the better
+    In statistics, the Bayesian information criterion (BIC) or Schwarz information criterion (also SIC, SBC, SBIC) is a criterion for model selection among a finite set of models; the model with the lowest BIC is preferred
+    cost function, eg mean squared error, AKA L2 loss, 
+
+- algorithm: least squares linear regression
+
+- algorithm: polynomial regression
+  sample_data: >
+    visual inspection of the data shows a curvilinear relationship, is it appropriate to use a polynomial regression model
+
 - algorithm: two-class logistic regression
   task_type: supervised
   model_type: regression
@@ -94,8 +115,77 @@
     confusion_matrix(Y_test, class_predict) # y-axis is actual, x-axis is predicted, top left is origin
     
 
+- algorithm: support vector machine
+  model_type: regression
+  task_type: supervised
+  objective: [classify, time series analysis, regression analysis, anomaly detection, clustering analysis]
+  concept: >
+    Number of features should be less than number of samples.
+    Hyperplane (2D or more) between two classes and (equally?) as far from the
+    classes as possible (get maximum margin distance for less error rate).
+    Could be linear or non-linear methods, by changing kernal (eg linear, RBF, etc)
+    If possible.
+    The support vectors are the planes made from class data points closest to the hyperplane.
+    If classes have overlap and thus no hyperplane can cut through, try adding an additional dimension.
+    Called kernal fit.
+    Can use curving, rather than linear, using C and gamma parameters. 
+    C [?], gamma [?] ... how close the edge of the vectors are [?]
+  prep: |
+    from sklearn.model_selection import train_test_split<Paste>
+    from sklearn.utils import shuffle
+    # encode target classes if not already integer [?]
+    def encode_target(x):
+        if x == 'label or value threshold': return(0)
+        elif x == 'other label': return(1)
+        else: return(2)
+    Y=df.target.apply(encode_target)
+    X=df.drop(columns=['target'])
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+  model: |
+    from sklearn.svm import SVC
+    from sklearn.metrics import accuracy_score
+    model = SVC() # alter kernal like: (kernal='linear')
+    model.fit(X_train,Y_train)
+    Y_predict = model.predict(X_test)
+    accuracy_score(Y_test,Y_predict)
+    # also try linear, gaussian radial basis function, and 3rd degree polynomial
+    model_lin = svm.SVC(kernal='linear', C=C).fit(X_train,Y_train)
+    model_rbf = svm.SVC(kernal='rbf', gamma=0.7, C=C).fit(X_train,Y_train)
+    model_poly = svm.SVC(kernal='poly', degree=3, C=C).fit(X_train,Y_train)
+    model_sig = svm.SVC(kernal='sigmoid' # [?] ).fit(X_train,Y_train)
+
+- algorithm: naive bayes
+  model_type: ~
+  objective: classify
+  concept: >
+    Works well with large datasets. 
+    Likelihood times prior over evidence = posterior
+    Pros - multi-class prediction, good if assumption of independence holds,
+    performs well with categorical variables.
+    But if numerical, normal distribution is assumed.
+    Cons - If variable added to test dataset and not in training, the variable
+    is assigned 0 probability (eg, zero frequency). Laplace as a smoothing tech
+    can help solve this issue.
+  prep: |
+    from sklearn.model_selection import train_test_split
+    # Encode
+    X = pd.get_dummies(df[['predictor_1', 'predictor_2']])
+    Y = pd.DataFrame(df.target)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+    
+  model: |
+    from sklearn.naive_bayes import GaussianNB
+    model = GaussianNB()
+    model.fit(X_train, Y_train)
+    # ...
+
 other:
-  impute_values: |
+  outliers: ~
+  nans: |   
+    import seaborn as sns
+    df.info()
+    sns.heatmap(df.isnull(), cbar=False)
+  impute_values: ~
         
     
 
