@@ -161,3 +161,9 @@ from fuzzywuzzy import fuzz; fuzz.token_sort_ratio(str1,str2)
 python > pandas > join sets on unique identifier with renaming columns with suffix (set both df's index to the identifier)
 df.join(other_df, how='left|right|outer|inner', lsuffix='_df', rsuffix='_other_df')
 ###
+python > pandas > get random observation
+df.sample() # n=5 or frac=.1
+###
+python > pandas > read CSV exported from Windows Excel to address encoding issue
+pd.read_csv('PanelMembers.csv', encoding='iso-8859-1') # Windows Excel encoding issue
+###
