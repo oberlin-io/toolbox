@@ -231,9 +231,80 @@ def split_expand_row(df, column, sep=',', keep=False):
     new_df[column] = new_values
     return new_df
 
+
+def mksql(dictionary, columns):
+    '''
+    make sql query from a tables' set of features/columns (columns.txt)
+    while incorporating columns not in data dictionary
+    outputs in same order as columns input
+
+    dicitonary: yaml file of array of features/columns with array of fields with alt values
+    columns: all columns to include in the SQL query, whether in dictionary or not
+             sets output order
+    '''
+
+    # input table
+    table = input('table name, ie dictionary parentobject value: ')
+
+    # read in columns of the table
+    with open('columns.txt', 'r') as f:
+        cols = f.read()
+    cols = cols.split('\n')
+
+    # read in dictionary
+    with open(dictionary, 'r') as f:
+        y = f.read() # yaml in
+    dictionary = yaml.load(y, Loader=yaml.BaseLoader) # yaml to dict
+    
+    # get all features of dictionary whose parentobject (ie table) is table
+    subset = []
+    for feature in dictionary:
+        if feature['parentobject'] == table:
+            subset.append(feature)
+
+    if len(subset) == 0: return('table not found')
+
+    else:
+        print('{} features found for {}'.format(len(subset), table))
+
+        # build out sql string
+        sql = 'SELECT \n'
+        for column in cols:
+    
+            # exist in subset of dictionary?
+            notindict = True
+            for feature in subset:
+    
+                # if it exists, add to sql string with case statements
+                if feature['feature'] == column:
+                    notindict = False
+                    if cols.index(column) == 0: sql += 'CASE\n'
+                    else: sql += ',CASE\n'
+                    for field in feature['fields']:
+                        if field['value'] == 'null':
+                        # rather access as None, but why pyyaml passing null as string?
+                            sql += '\tWHEN {} IS NULL THEN NULL\n'.format(feature['feature'])
+                        else:
+                            sql += '\tWHEN {} = {} THEN \'{}\'\n'.format(
+                                feature['feature'], field['value'], field['alt']
+                            )
+                    sql += 'END AS {}\n'.format(feature['feature'])
+            
+            # if not found in dictionary and is not a blank line, write to sql string
+            if notindict and len(column) > 0:
+                if cols.index(column) == 0: sql += '{}\n'.format(column)
+                else: sql += ',{}\n'.format(column)
+        
+        # cap off sql string and write out
+        sql += 'FROM {}\n'.format(table)
+        with open('sql.sql', 'w') as f:
+            f.write(sql)
+            print('sql.sql written')
+
 ################################################################################
 testing=False
 if testing == True:
     df=pd.read_csv('test_sets/asa_shooter.csv')
     thumb=thumb(df)
     thumb.through()
+
