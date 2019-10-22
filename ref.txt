@@ -167,3 +167,9 @@ df.sample() # n=5 or frac=.1
 python > pandas > read CSV exported from Windows Excel to address encoding issue
 pd.read_csv('PanelMembers.csv', encoding='iso-8859-1') # Windows Excel encoding issue
 ###
+bash > histoy > clear shell history
+history -c
+###
+bash > history > search through shell command history
+history |grep <search string>
+###
