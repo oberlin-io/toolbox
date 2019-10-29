@@ -91,6 +91,7 @@
     # transform target to contiguous flattened (1-D) array
     Y = df.target
     Y = np.ravel(Y)
+    # scale ?
   model: |
     from sklearn.linear_model import LogisticRegression
     from sklearn import metrics
@@ -141,6 +142,7 @@
     Y=df.target.apply(encode_target)
     X=df.drop(columns=['target'])
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y)
+    # scale data to be uniform
   model: |
     from sklearn.svm import SVC
     from sklearn.metrics import accuracy_score
@@ -179,6 +181,15 @@
     model.fit(X_train, Y_train)
     # ...
 
+- algorithm: Ensemble Machine Learning
+  concept: |
+    Multiple algorithms. Decrease variance (bagging w/ tree baggin, random forest, random subspace -- collecting weaker 'learners', aka bootstraping aggregation),
+    voting for classification, averaging for regression
+    Reduce bias
+    (boosting w/ ada boost, XG boost, gradient boosting - fit weak learners that are slightly better than random to weighted versions of the data.
+    also have parellel 
+    ), and/or Improve predictions (stacking w/ stacking linear algos, stacking non-linear).
+
 other:
   outliers: ~
   nans: |   
@@ -186,6 +197,40 @@ other:
     df.info()
     sns.heatmap(df.isnull(), cbar=False)
   impute_values: ~
-        
+  fit: |
+    cross-validation outputs [?]
+  selection: cosnider bis, variance, error
+
+genel: |
+  pass y as 1-D array [?], chekc out ravel()
     
+scale:
+        concept: Scale features so that mean is ~0, scaling to unit variance. So that features' difference in scale does not affect. Scale before train-test split. (Not like below)
+        code: |
+scaler = StandardScaler()
+X_scl = pd.DataFrame(data=scaler.fit_transform(X), columns=X.columns)
+        X_trn_scl.round().describe()
+        import seaborn as sb
+        sb.distplot(X_trn_scl['sepal length (cm)'], kde=False)
+sb.distplot(X_trn_scl['sepal width (cm)'], kde=False)
+sb.distplot(X_trn_scl['petal length (cm)'], kde=False)
+sb.distplot(X_trn_scl['petal width (cm)'], kde=False)
+
+false_neg_pos
+cm = pd.DataFrame(data=metrics.confusion_matrix(y_tst, predicted),
+                  columns=iris.target_names, index=iris.target_names)
+
+'''
+           predicted 
+             no  yes
+  actual no  tn   fp
+        yes  fn   tp
+
+'''
+
+
+classification report
+
+sklearn.model_selection import cross_val_score
+
 
