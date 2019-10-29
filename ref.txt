@@ -173,3 +173,7 @@ history -c
 bash > history > search through shell command history
 history |grep <search string>
 ###
+python > readline > get history of commands file
+import readline
+readline.write_history_file(<file_name>)
+###
