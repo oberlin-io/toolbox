@@ -26,3 +26,7 @@ Machine learning algorithm content, including concepts and example code.
 Data sets to test modules.
 - [asa_shooter.csv](https://www.americansocceranalysis.com/asa-xgoals)
 - iris.csv
+- solar system satellites (moons)
+
+## Add Features
+- Module that exports Matplotlib to an HTML or Markdown file for viewing.
