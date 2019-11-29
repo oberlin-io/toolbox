@@ -177,3 +177,6 @@ python > readline > get history of commands file
 import readline
 readline.write_history_file(<file_name>)
 ###
+python > readline > clear history
+readline.clear_history()
+###
