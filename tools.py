@@ -343,3 +343,18 @@ def df_to_xlsx(df, write_path='report.xlsx'):
     worksheet.freeze_panes(1, 0)
 
     workbook.close()
+
+
+def get_hashed_id(df, feature_0, feature_1):
+    '''
+    Hashes then hexes two features/columns to *likely*
+    have a unique identifier.
+    '''
+    if (df[feature_0].isna().sum() == 0) and (df[feature_1].isna().sum() == 0):
+        ids = []
+        for i, r in df_.iterrows():
+            hsh = hash((r[feature_0], r[feature_1]))
+            ids.append(hex(hsh))
+        return ids
+    else: print('One or both features contain nulls.')
+
