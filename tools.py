@@ -308,3 +308,38 @@ if testing == True:
     thumb=thumb(df)
     thumb.through()
 
+def df_to_xlsx(df, write_path='report.xlsx'):
+    '''
+    Makes an XLSX, adds a table comprised of the DF, and formats.
+    Requires: $ pip3 install xlsxwriter
+
+    df: The Pandas dataframe.
+    write_path: The XLSX file name or complete path to be saved.
+
+    '''
+
+    import xlsxwriter as xw
+
+    # Make workbook, sheet, and table
+    workbook = xw.Workbook(write_path)
+    worksheet = workbook.add_worksheet()
+
+    # Define header names
+    header_names = list()
+    for i in df.columns:
+        header_names.append({'header': i})
+
+    # Define preferences
+    preferences = {
+        'data': df.fillna('').values.tolist(), # Errors with NaNs
+        'columns': header_names,
+        'style': 'Table Style Medium 1', # Black header, grey-white alternating
+    }
+
+    # Make table
+    worksheet.add_table(0, 0, df.shape[0], df.shape[1]-1, preferences)
+
+    # Freeze top row
+    worksheet.freeze_panes(1, 0)
+
+    workbook.close()

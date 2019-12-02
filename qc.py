@@ -47,6 +47,8 @@ QC function (df, features, business logic):
 import pandas as pd
 from datetime import datetime
 
+testing = False
+
 class report(object):
     def __init__(self, df, title='Report'):
         self.df = df
@@ -171,7 +173,6 @@ class report(object):
         self.append_md(df1, type='df', index=False)
 
 
-testing = True
 
 if testing:
     df = pd.read_csv('/test_sets/qc_test.csv')
