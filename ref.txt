@@ -180,3 +180,6 @@ readline.write_history_file(<file_name>)
 python > readline > clear history
 readline.clear_history()
 ###
+linux > terminal > A-Z Index of Linux Command Line
+https://ss64.com/bash/
+###
