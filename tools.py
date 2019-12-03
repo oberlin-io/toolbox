@@ -358,3 +358,26 @@ def get_hashed_id(df, feature_0, feature_1):
         return ids
     else: print('One or both features contain nulls.')
 
+
+def table_for_md(df, sample_n=7, include_index=False):
+    '''
+    Returns Markdown/HTML of the dataframe.
+    If dataframe size is greater than sample number, gets sample.
+    '''
+    #
+    md = ''
+    #
+    size = df.shape[0]
+    if size > sample_n:
+        df1 = df.sample(n=sample_n)
+        md += '*Sample from {} observations*\n'.format(str(size))
+    else:
+        df1 = df
+        md += '*{} observations*\n'.format(str(size))
+    #
+    html_table = df1.to_html(index=include_index)
+    html_table = html_table.replace('\n', '')
+    #
+    md += html_table + '\n'
+    #
+    return(md)
