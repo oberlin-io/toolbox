@@ -187,6 +187,11 @@ windows > command line > get processes (like linux's "top")
 Powershell
 While(1) {ps |sort -des cpu |select -f 66 |ft -a; sleep 4; cls}
 ###
+<<<<<<< HEAD
 windows > search > sbroing up search bar
 ctrl + s
+=======
+chrome > tabs > switch
+ctrl+2
+>>>>>>> 281dec61271339d0d84d248497380c652be46297
 ###
