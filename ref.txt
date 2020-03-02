@@ -187,3 +187,6 @@ windows > command line > get processes (like linux's "top")
 Powershell
 While(1) {ps |sort -des cpu |select -f 66 |ft -a; sleep 4; cls}
 ###
+windows > search > sbroing up search bar
+ctrl + s
+###
